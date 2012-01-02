@@ -7,11 +7,6 @@ root.title("_main.cfg Creator")
 Theme = Style()
 Theme.theme_use('clam')
 
-checkButtonVar1 = IntVar()
-checkButtonVar2 = IntVar()
-checkButtonVar3 = IntVar()
-checkButtonVar4 = IntVar()
-
 # This is a function that gets the path to the icon, and puts it in the entry.
 def getImageName(varName, entryName):
     varName = tkFileDialog.askopenfilename(filetypes=[("All files", "*.*"), ("PNG Images", "*.png")])
@@ -51,15 +46,16 @@ def finalFunction():
         campAbbrev[i] = campAbbrev[i][0:1]
     campAbbrev = ''.join(campAbbrev)
     # Create the difficulties.
-    numberOfCheckedBoxes = checkButtonVar1.get() + checkButtonVar2.get() + checkButtonVar3.get() + checkButtonVar4.get()
-    if numberOfCheckedBoxes == 1:
-        campDifficulties = "EASY"
-    elif numberOfCheckedBoxes == 2:
-        campDifficulties = "EASY,MEDIUM"
-    elif numberOfCheckedBoxes == 3:
-        campDifficulties = "EASY,MEDIUM,HARD"
-    elif numberOfCheckedBoxes == 4:
-        campDifficulties = "EASY,MEDIUM,HARD,NIGHTMARE" 
+    campDifficulties = ''
+    checkButtonStrings = ['EASY,', 'MEDIUM,', 'HARD,', 'NIGHTMARE']
+    if easyCheck.instate(['selected']):
+        campDifficulties = checkButtonStrings[0]
+    if normalCheck.instate(['selected']):
+        campDifficulties = campDifficulties + checkButtonStrings[1]
+    if hardCheck.instate(['selected']):
+        campDifficulties = campDifficulties + checkButtonStrings[2]
+    if nightmareCheck.instate(['selected']):
+        campDifficulties = campDifficulties + checkButtonStrings[3]
     # Create the campaign defenition, just the Id, but uppercased...
     campDef = campId.upper()
     # Create the binary path...
@@ -142,7 +138,7 @@ openingRow.pack(side=TOP, fill=X)
 nameRow.pack(side=TOP, fill=X)
 firstScenarioRow.pack(side=TOP, fill=X)
 descRow.pack(side=TOP, fill=BOTH, expand=YES)
-diffRow.pack(side=TOP, fill=BOTH, expand=YES)
+diffRow.pack(side=TOP, fill=X)
 iconRow.pack(side=TOP, fill=BOTH)
 portraitRow.pack(side=TOP, fill=BOTH)
 
@@ -184,16 +180,16 @@ sbar.pack(side=LEFT, fill=Y)
 diffLabel=Label(diffRow,width=15,text='Difficult Levels:')
 diffLabel.pack(side=LEFT)
 
-easyCheck=Checkbutton(diffRow,text='Easy', variable=checkButtonVar1, onvalue=1, offvalue=0)
+easyCheck=Checkbutton(diffRow,text='Easy', onvalue=1)
 easyCheck.pack(side=LEFT)
 
-normalCheck=Checkbutton(diffRow,text='Normal', variable=checkButtonVar2, onvalue=1, offvalue=0)
+normalCheck=Checkbutton(diffRow,text='Normal', onvalue=1)
 normalCheck.pack(side=LEFT)
 
-hardCheck=Checkbutton(diffRow,text='Hard', variable=checkButtonVar3, onvalue=1, offvalue=0)
+hardCheck=Checkbutton(diffRow,text='Hard', onvalue=1)
 hardCheck.pack(side=LEFT)
 
-nightmareCheck=Checkbutton(diffRow,text='Nightmare', variable=checkButtonVar4, onvalue=1, offvalue=0)
+nightmareCheck=Checkbutton(diffRow,text='Nightmare', onvalue=1)
 nightmareCheck.pack(side=LEFT)
 
 checkButtonsHelpButton = Button(diffRow, text="?", width=1, command=(lambda: helpButton("This is where you choose the number of difficulties. If you check one box, it will have one difficulty: Easy. If check two boxes, it will have two, etc., etc.")))
