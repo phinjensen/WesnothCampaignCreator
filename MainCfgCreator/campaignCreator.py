@@ -1,23 +1,71 @@
-import sys, os, tkFileDialog, tkMessageBox, glob, getpass
+import sys, os, tkFileDialog, tkMessageBox, glob, getpass, Tkinter, ImageTk
 from Tkinter import *
 from ttk import *
 
 root = Tk()
 root.title("_main.cfg Creator")
-Theme = Style()
-Theme.theme_use('clam')
+if sys.platform == 'linux2':
+    Theme = Style()
+    Theme.theme_use('clam')
 
 # This is a function that gets the path to the icon, and puts it in the entry.
-def getImageName(varName, entryName):
+def getImageName(varName, entryName, issmallimage, canvasName, frame):
     varName = tkFileDialog.askopenfilename(filetypes=[("All files", "*.*"), ("PNG Images", "*.png")])
     entryName.insert(0, varName)
+    if issmallimage:
+        img = ImageTk.PhotoImage(file=varName)
+        canvasName.create_image(2, 2, image=img, anchor=NW)
+        canvasName.config(width=img.width(), height=img.height())
+        frame.mainloop()
 
 def quitButton():
     if tkMessageBox.askokcancel("Verify Quit", "Really quit?"):
-        root.quit()
+        root.destroy()
 
 def helpButton(helpMessage):
     tkMessageBox.showinfo(title="Help!", message=helpMessage)
+
+def advancedOptionsWindow():
+    optionsWindow = Toplevel()
+    optionsWindow.title("Advanced Options")
+    # All this is the labels and checks for the extra defines.              \
+    extraDefinesChecksLabel = Label(optionsWindow, text="Extra Defines:")  #|
+    extraDefinesChecksLabel.grid(column=0, row=0)                          #|
+    extraDefines1 = Checkbutton(optionsWindow, text="Armegeddon Drake")    #|
+    extraDefines2 = Checkbutton(optionsWindow, text='Ancient Lich')        #|
+    extraDefines3 = Checkbutton(optionsWindow, text='Dwarvish Runecaster') #|
+    extraDefines4 = Checkbutton(optionsWindow, text='Dwarvish Arcanister') #| All this.
+    extraDefines5 = Checkbutton(optionsWindow, text='Death Knight')        #|
+    extraDefines1.grid(column=1, row=0)                                    #|
+    extraDefines2.grid(column=2, row=0)                                    #|
+    extraDefines3.grid(column=3, row=0)                                    #|
+    extraDefines4.grid(column=4, row=0)                                    #|
+    extraDefines5.grid(column=5, row=0)                                    #/
+    #
+    fields = ['Easy:', 'Medium:', 'Hard:', 'Nightmare:']
+    num = 1
+
+#    for field in fields:
+#        label = Label(optionsWindow, text=field)
+#        canvas = Tkinter.Canvas(optionsWindow, bg='white', width=72, height=72)
+#        entry = Entry(optionsWindow)
+#        browseButton = Button(optionsWindow, text='Browse', width=7, command=(lambda: getImageName(blah, entry, canvas)))
+#        label.grid(column=0, row=num)
+#        canvas.grid(column=1, row=num)
+#        entry.grid(column=2, row=num, columnspan=3, sticky=W+E)
+#        browseButton.grid(column=5, row=num)
+#        num = num + 1
+#        num
+
+#    descEasyLabel = Label(optionsWindow, text="Easy:")
+#    descEasyLabel.grid(column=0, row=1)
+#    descEasyCanvas = Tkinter.Canvas(optionsWindow, bg='white')
+#    descEasyCanvas.grid(column=1, row=1)
+#    descEasyCanvas.config(width=72, height=72)
+#    descEasyEntry = Entry(optionsWindow)
+#    descEasyEntry.grid(column=2, row=1, columnspan=3, sticky=W+E)
+#    descEasyBrowseButton = Button(optionsWindow, text="Browse", width=7)
+#    descEasyBrowseButton.grid(column=5, row=1)
 
 # The Final Function, which creates the _main.cfg file and creates the directorys.
 def finalFunction():
@@ -202,11 +250,15 @@ descriptionHelpButton.pack(side=RIGHT)
 iconLabel = Label(iconRow, width=15, text='Campaign Icon:')
 iconLabel.pack(side=LEFT)
 
+iconCanvas = Canvas(iconRow)
+iconCanvas.pack(side=LEFT)
+iconCanvas.config(width=72, height=72)
+
 iconEntry = Entry(iconRow, width=50)
 iconEntry.pack(side=LEFT, fill=X, expand=YES)
 
 campIcon = ''
-iconButton = Button(iconRow, width=7, text="Browse", command=(lambda: getImageName(campIcon, iconEntry)))
+iconButton = Button(iconRow, width=7, text="Browse", command=(lambda: getImageName(campIcon, iconEntry, True, iconCanvas, iconRow)))
 iconButton.pack(side=LEFT)
 
 iconHelpButton = Button(iconRow, width=1, text="?", command=(lambda: helpButton("This is the small icon that would go next to the name of the campaign. This should be an image from the core game.")))
@@ -220,11 +272,14 @@ portraitEntry = Entry(portraitRow, width=50)
 portraitEntry.pack(side=LEFT, fill=X, expand=YES)
 
 campImage = ''
-portraitButton = Button(portraitRow, width=7, text="Browse", command=(lambda: getImageName(campImage, portraitEntry)))
+portraitButton = Button(portraitRow, width=7, text="Browse", command=(lambda: getImageName(campImage, portraitEntry, None, None, None)))
 portraitButton.pack(side=LEFT)
 
 portraitHelpButton = Button(portraitRow, width=1, text="?", command=(lambda: helpButton("This is the portrait that goes underneath the description.")))
 portraitHelpButton.pack(side=RIGHT)
+
+advancedOptionsButton = Button(root, text="Advanced Options", command=(lambda: advancedOptionsWindow()))
+advancedOptionsButton.pack()
 
 Button(root, text="Done!", command=finalFunction).pack(side=LEFT)
 Button(root, text="Quit", command=quitButton).pack(side=RIGHT)
