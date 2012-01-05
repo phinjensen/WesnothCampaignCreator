@@ -34,7 +34,7 @@ def advancedOptionsWindow():
     extraDefines1 = Checkbutton(optionsWindow, text="Armegeddon Drake")    #|
     extraDefines2 = Checkbutton(optionsWindow, text='Ancient Lich')        #|
     extraDefines3 = Checkbutton(optionsWindow, text='Dwarvish Runecaster') #|
-    extraDefines4 = Checkbutton(optionsWindow, text='Dwarvish Arcanister') #| All this.
+    extraDefines4 = Checkbutton(optionsWindow, text='Dwarvish Arcanister') #| All this. Oh, and get this: It doesn't actually do anything.
     extraDefines5 = Checkbutton(optionsWindow, text='Death Knight')        #|
     extraDefines1.grid(column=1, row=0)                                    #|
     extraDefines2.grid(column=2, row=0)                                    #|
@@ -134,8 +134,11 @@ def finalFunction():
 #endif""" %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, campDef, campDescription, campDef, campBinary, campId, campId, campId)
     # Find the Userdata directory using the command wesnoth --config-path. The create the paths.
 
-    if sys.platform == "linux2":
+    if sys.platform == "linux2" or sys.platform == "darwin":
         userDataPath = os.popen("wesnoth --config-path").read()
+        if not userDataPath:
+            tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
+            userDataPath = tkFileDialog.askdirectory()
 	userDataPath = userDataPath.strip() + '/'
     elif sys.platform == "win32":
         userName = getpass.getuser()
