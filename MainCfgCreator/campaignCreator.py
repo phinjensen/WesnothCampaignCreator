@@ -42,30 +42,15 @@ def advancedOptionsWindow():
     extraDefines4.grid(column=4, row=0)                                    #|
     extraDefines5.grid(column=5, row=0)                                    #/
     #
-    fields = ['Easy:', 'Medium:', 'Hard:', 'Nightmare:']
-    num = 1
-
-#    for field in fields:
-#        label = Label(optionsWindow, text=field)
-#        canvas = Tkinter.Canvas(optionsWindow, bg='white', width=72, height=72)
-#        entry = Entry(optionsWindow)
-#        browseButton = Button(optionsWindow, text='Browse', width=7, command=(lambda: getImageName(blah, entry, canvas)))
-#        label.grid(column=0, row=num)
-#        canvas.grid(column=1, row=num)
-#        entry.grid(column=2, row=num, columnspan=3, sticky=W+E)
-#        browseButton.grid(column=5, row=num)
-#        num = num + 1
-#        num
-
-#    descEasyLabel = Label(optionsWindow, text="Easy:")
-#    descEasyLabel.grid(column=0, row=1)
-#    descEasyCanvas = Tkinter.Canvas(optionsWindow, bg='white')
-#    descEasyCanvas.grid(column=1, row=1)
-#    descEasyCanvas.config(width=72, height=72)
-#    descEasyEntry = Entry(optionsWindow)
-#    descEasyEntry.grid(column=2, row=1, columnspan=3, sticky=W+E)
-#    descEasyBrowseButton = Button(optionsWindow, text="Browse", width=7)
-#    descEasyBrowseButton.grid(column=5, row=1)
+    descEasyLabel = Label(optionsWindow, text="Easy:")
+    descEasyLabel.grid(column=0, row=1)
+    descEasyCanvas = Tkinter.Canvas(optionsWindow, bg='white')
+    descEasyCanvas.grid(column=1, row=1)
+    descEasyCanvas.config(width=72, height=72)
+    descEasyEntry = Entry(optionsWindow)
+    descEasyEntry.grid(column=2, row=1, columnspan=3, sticky=W+E)
+    descEasyBrowseButton = Button(optionsWindow, text="Browse", width=7)
+    descEasyBrowseButton.grid(column=5, row=1)
 
 # The Final Function, which creates the _main.cfg file and creates the directorys.
 def finalFunction():
@@ -111,26 +96,26 @@ def finalFunction():
     # The Template for the _main.cfg file...
     mainCfgTemplate = """
 [campaign]
-  id="%s"
-  name= _ "%s"
-  icon="%s"
-  image=%s
-  abbrev=%s
-  first_scenario=%s
-  difficulties=%s
-  define=%s
-  description="%s"
+    id="%s"
+    name= _ "%s"
+    icon="%s"
+    image=%s
+    abbrev=%s
+    first_scenario=%s
+    difficulties=%s
+    define=%s
+    description="%s"
 [/campaign]
 
 #ifdef %s
-  [binary_path]
-      path=%s
-  [/binary_path]
-  {~add-ons/%s/utils}
-  [+units]
-      {~add-ons/%s/units}
-  [/units]
-  {~add-ons/%s/scenarios}
+    [binary_path]
+        path=%s
+    [/binary_path]
+    {~add-ons/%s/utils}
+    [+units]
+        {~add-ons/%s/units}
+    [/units]
+    {~add-ons/%s/scenarios}
 #endif""" %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, campDef, campDescription, campDef, campBinary, campId, campId, campId)
     # Find the Userdata directory using the command wesnoth --config-path. The create the paths.
 
@@ -142,7 +127,8 @@ def finalFunction():
 	userDataPath = userDataPath.strip() + '/'
     elif sys.platform == "win32":
         userName = getpass.getuser()
-	userDataPath = glob.glob('C:\\Users\\' + userName + "\\Documents\\My Games\\Wesnoth[0-9]*")
+        userDataPath = glob.glob('C:\\Users\\' + userName + "\\Documents\\My Games\\Wesnoth[0-9]*")
+        userDataPath.sort(key=lambda path:[int(x) for x in re.findall("[0-9]+",path)], reverse=True)
 	if len(userDataPath) > 1:
             userDataPath = userDataPath[0]
         else:
@@ -243,7 +229,7 @@ hardCheck.pack(side=LEFT)
 nightmareCheck=Checkbutton(diffRow,text='Nightmare', onvalue=1)
 nightmareCheck.pack(side=LEFT)
 
-checkButtonsHelpButton = Button(diffRow, text="?", width=1, command=(lambda: helpButton("This is where you choose the number of difficulties. If you check one box, it will have one difficulty: Easy. If check two boxes, it will have two, etc., etc.")))
+checkButtonsHelpButton = Button(diffRow, text="?", width=1, command=(lambda: helpButton("This is where you choose the number of difficulties. For Icons and names of difficulties, open the advanced options window.")))
 checkButtonsHelpButton.pack(side=RIGHT)
 
 descriptionHelpButton = Button(descRow, width=1, text="?", command=(lambda: helpButton("This is where the description for the campaign should go.")))
