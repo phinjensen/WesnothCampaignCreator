@@ -42,15 +42,62 @@ def advancedOptionsWindow():
     extraDefines4.grid(column=4, row=0)                                    #|
     extraDefines5.grid(column=5, row=0)                                    #/
     #
-    descEasyLabel = Label(optionsWindow, text="Easy:")
-    descEasyLabel.grid(column=0, row=1)
-    descEasyCanvas = Tkinter.Canvas(optionsWindow, bg='white')
-    descEasyCanvas.grid(column=1, row=1)
-    descEasyCanvas.config(width=72, height=72)
-    descEasyEntry = Entry(optionsWindow)
-    descEasyEntry.grid(column=2, row=1, columnspan=3, sticky=W+E)
-    descEasyBrowseButton = Button(optionsWindow, text="Browse", width=7)
-    descEasyBrowseButton.grid(column=5, row=1)
+    global EasyEntry, EasyIcon
+    EasyLabel = Label(optionsWindow, text="Easy:")
+    EasyLabel.grid(column=0, row=1)
+
+    EasyCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    EasyCanvas.grid(column=1, row=1)
+
+    EasyEntry = Entry(optionsWindow)
+    EasyEntry.grid(column=2, row=1, columnspan=3, sticky=W+E)
+
+    EasyIcon = None
+    EasyBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(EasyIcon, EasyEntry, True, EasyCanvas, optionsWindow)))
+    EasyBrowseButton.grid(column=5, row=1)
+    #
+    global MediumEntry, MediumIcon
+    MediumLabel = Label(optionsWindow, text="Medium:")
+    MediumLabel.grid(column=0, row=2)
+
+    MediumCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    MediumCanvas.grid(column=1, row=2)
+
+    MediumEntry = Entry(optionsWindow)
+    MediumEntry.grid(column=2, row=2, columnspan=3, sticky=W+E)
+
+    MediumIcon = None
+    MediumBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(MediumIcon, MediumEntry, True, MediumCanvas, optionsWindow)))
+    MediumBrowseButton.grid(column=5, row=2)
+    #
+    global HardEntry, HardIcon
+    HardLabel = Label(optionsWindow, text="Hard:")
+    HardLabel.grid(column=0, row=3)
+
+    HardCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    HardCanvas.grid(column=1, row=3)
+
+    HardEntry = Entry(optionsWindow)
+    HardEntry.grid(column=2, row=3, columnspan=3, sticky=W+E)
+
+    HardIcon = None
+    HardBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(HardIcon, HardEntry, True, HardCanvas, optionsWindow)))
+    HardBrowseButton.grid(column=5, row=3)
+    #
+    global NightmareEntry, NightmareIcon
+    NightmareLabel = Label(optionsWindow, text="Nightmare:")
+    NightmareLabel.grid(column=0, row=4)
+
+    NightmareCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    NightmareCanvas.grid(column=1, row=4)
+
+    NightmareEntry = Entry(optionsWindow)
+    NightmareEntry.grid(column=2, row=4, columnspan=3, sticky=W+E)
+
+    NightmareIcon = None
+    NightmareBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(NightmareIcon, NightmareEntry, True, NightmareCanvas, optionsWindow)))
+    NightmareBrowseButton.grid(column=5, row=4)
+
 
 # The Final Function, which creates the _main.cfg file and creates the directorys.
 def finalFunction():
@@ -89,6 +136,26 @@ def finalFunction():
         campDifficulties = campDifficulties + checkButtonStrings[2]
     if nightmareCheck.instate(['selected']):
         campDifficulties = campDifficulties + checkButtonStrings[3]
+    # Get difficulty description icons and names. I would put all this into a function, but it wouldn't work. Please give me any hints.
+    EasyIcon = EasyEntry.get()
+    EasyIconSliceNum = EasyIcon.find('core')
+    EasyIcon = EasyIcon[EasyIconSliceNum:]
+    EasyIcon = EasyIcon.replace('core/images/', '')
+    #
+    MediumIcon = MediumEntry.get()
+    MediumIconSliceNum = MediumIcon.find('core')
+    MediumIcon = MediumIcon[MediumIconSliceNum:]
+    MediumIcon = MediumIcon.replace('core/images/', '')
+    #
+    HardIcon = HardEntry.get()
+    HardIconSliceNum = HardIcon.find('core')
+    HardIcon = HardIcon[HardIconSliceNum:]
+    HardIcon = HardIcon.replace('core/images/', '')
+    #
+    NightmareIcon = NightmareEntry.get()
+    NightmareIconSliceNum = NightmareIcon.find('core')
+    NightmareIcon = NightmareIcon[NightmareIconSliceNum:]
+    NightmareIcon = NightmareIcon.replace('core/images/', '')
     # Create the campaign defenition, just the Id, but uppercased...
     campDef = campId.upper()
     # Create the binary path...
@@ -103,6 +170,7 @@ def finalFunction():
     abbrev=%s
     first_scenario=%s
     difficulties=%s
+    difficulty_descriptions=
     define=%s
     description="%s"
 [/campaign]
@@ -116,7 +184,17 @@ def finalFunction():
         {~add-ons/%s/units}
     [/units]
     {~add-ons/%s/scenarios}
-#endif""" %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, campDef, campDescription, campDef, campBinary, campId, campId, campId)
+#endif""" %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, EasyIcon, MediumIcon, campDef, campDescription, campDef, campBinary, campId, campId, campId)
+    mainCfgList = mainCfgTemplate.split('\n')
+    if easyCheck.instate(['selected']):
+        mainCfgList[7].append("{MAIN_CFG_TXT2 '" + EasyIcon + "' (_ 'Trainee') (_ 'Easy')" 
+#    if normalCheck.instate(['selected']):
+#        campDifficulties = campDifficulties + checkButtonStrings[1]
+#    if hardCheck.instate(['selected']):
+#        campDifficulties = campDifficulties + checkButtonStrings[2]
+#    if nightmareCheck.instate(['selected']):
+#        campDifficulties = campDifficulties + checkButtonStrings[3]
+
     # Find the Userdata directory using the command wesnoth --config-path. The create the paths.
 
     if sys.platform == "linux2" or sys.platform == "darwin":
