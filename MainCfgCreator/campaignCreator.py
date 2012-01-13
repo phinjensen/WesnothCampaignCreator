@@ -184,16 +184,28 @@ def finalFunction():
         {~add-ons/%s/units}
     [/units]
     {~add-ons/%s/scenarios}
-#endif""" %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, EasyIcon, MediumIcon, campDef, campDescription, campDef, campBinary, campId, campId, campId)
-    mainCfgList = mainCfgTemplate.split('\n')
-    if easyCheck.instate(['selected']):
-        mainCfgList[7].append("{MAIN_CFG_TXT2 '" + EasyIcon + "' (_ 'Trainee') (_ 'Easy')" 
-#    if normalCheck.instate(['selected']):
-#        campDifficulties = campDifficulties + checkButtonStrings[1]
-#    if hardCheck.instate(['selected']):
-#        campDifficulties = campDifficulties + checkButtonStrings[2]
-#    if nightmareCheck.instate(['selected']):
-#        campDifficulties = campDifficulties + checkButtonStrings[3]
+#endif
+""" %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, campDef, campDescription, campDef, campBinary, campId, campId, campId)
+    mainCfgList = mainCfgTemplate.split('\n') 
+
+    if "EASY" in mainCfgTemplate:
+        mainCfgList[9] += ' {MENU_IMG_TXT2 "' + EasyIcon + '" (_ 'Trainee') (_ "(Easy)")} + ";" +' 
+
+    if "MEDIUM" in mainCfgTemplate:
+        mainCfgList[9] += ' {MENU_IMG_TXT2 "' + MediumIcon + '" (_ "Soldier") (_ "(Medium)")} + ";" +'
+
+    if "HARD" in mainCfgTemplate:
+        mainCfgList[9] += ' {MENU_IMG_TXT2 "' + HardIcon + '" (_ "General") (_ "(Hard)")} + ";" +'
+
+    if "NIGHTMARE" in mainCfgTemplate:
+        mainCfgList[9] += ' {MENU_IMG_TXT2 "' + NightmareIcon + '" (_ "Master") (_ "(Nightmare)")}' 
+
+    if mainCfgList[9].endswith('+'):
+        mainCfgList[9] = mainCfgList[9][0:-8]
+
+    mainCfgTemplate = '\n'.join(mainCfgList)
+    
+    print mainCfgTemplate
 
     # Find the Userdata directory using the command wesnoth --config-path. The create the paths.
 
