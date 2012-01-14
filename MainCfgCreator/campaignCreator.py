@@ -28,75 +28,79 @@ def helpButton(helpMessage):
 def advancedOptionsWindow():
     optionsWindow = Toplevel()
     optionsWindow.title("Advanced Options")
-    # All this is the labels and checks for the extra defines.              \
-    extraDefinesChecksLabel = Label(optionsWindow, text="Extra Defines:")  #|
-    extraDefinesChecksLabel.grid(column=0, row=0)                          #|
-    extraDefines1 = Checkbutton(optionsWindow, text="Armegeddon Drake")    #|
-    extraDefines2 = Checkbutton(optionsWindow, text='Ancient Lich')        #|
-    extraDefines3 = Checkbutton(optionsWindow, text='Dwarvish Runecaster') #|
-    extraDefines4 = Checkbutton(optionsWindow, text='Dwarvish Arcanister') #| All this. Oh, and get this: It doesn't actually do anything.
-    extraDefines5 = Checkbutton(optionsWindow, text='Death Knight')        #|
-    extraDefines1.grid(column=1, row=0)                                    #|
-    extraDefines2.grid(column=2, row=0)                                    #|
-    extraDefines3.grid(column=3, row=0)                                    #|
-    extraDefines4.grid(column=4, row=0)                                    #|
-    extraDefines5.grid(column=5, row=0)                                    #/
+    # All this is the labels and checks for the extra defines.                        \
+    global extraDefines1, extraDefines2, extraDefines3, extraDefines4, extraDefines5 #|
+    extraDefinesChecksLabel = Label(optionsWindow, text="Extra Defines:")            #|
+    extraDefinesChecksLabel.grid(column=0, row=0)                                    #|
+    extraDefines1 = Checkbutton(optionsWindow, text="Armegeddon Drake")              #|
+    extraDefines2 = Checkbutton(optionsWindow, text='Ancient Lich')                  #|
+    extraDefines3 = Checkbutton(optionsWindow, text='Dwarvish Runecaster')           #|
+    extraDefines4 = Checkbutton(optionsWindow, text='Dwarvish Arcanister')           #| All this. Oh, and get this: It doesn't actually do anything.
+    extraDefines5 = Checkbutton(optionsWindow, text='Death Knight')                  #|
+    extraDefines1.grid(column=1, row=0)                                              #|
+    extraDefines2.grid(column=2, row=0)                                              #|
+    extraDefines3.grid(column=3, row=0)                                              #|
+    extraDefines4.grid(column=4, row=0)                                              #|
+    extraDefines5.grid(column=5, row=0)                                              #/
+    #
+    Label(optionsWindow, text="Difficulty Descriptions:").grid(column=0, row=1)
+    Button(optionsWindow, text="?", width=1, command=(lambda: helpButton("This is where you choose the Icons for difficulties."))).grid(column=5, row=1)
     #
     global EasyEntry, EasyIcon
     EasyLabel = Label(optionsWindow, text="Easy:")
-    EasyLabel.grid(column=0, row=1)
+    EasyLabel.grid(column=0, row=2)
 
     EasyCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
-    EasyCanvas.grid(column=1, row=1)
+    EasyCanvas.grid(column=1, row=2)
 
     EasyEntry = Entry(optionsWindow)
-    EasyEntry.grid(column=2, row=1, columnspan=3, sticky=W+E)
+    EasyEntry.grid(column=2, row=2, columnspan=3, sticky=W+E)
 
     EasyIcon = None
     EasyBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(EasyIcon, EasyEntry, True, EasyCanvas, optionsWindow)))
-    EasyBrowseButton.grid(column=5, row=1)
+    EasyBrowseButton.grid(column=5, row=2)
     #
     global MediumEntry, MediumIcon
     MediumLabel = Label(optionsWindow, text="Medium:")
-    MediumLabel.grid(column=0, row=2)
+    MediumLabel.grid(column=0, row=3)
 
     MediumCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
-    MediumCanvas.grid(column=1, row=2)
+    MediumCanvas.grid(column=1, row=3)
 
     MediumEntry = Entry(optionsWindow)
-    MediumEntry.grid(column=2, row=2, columnspan=3, sticky=W+E)
+    MediumEntry.grid(column=2, row=3, columnspan=3, sticky=W+E)
 
     MediumIcon = None
     MediumBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(MediumIcon, MediumEntry, True, MediumCanvas, optionsWindow)))
-    MediumBrowseButton.grid(column=5, row=2)
+    MediumBrowseButton.grid(column=5, row=3)
     #
     global HardEntry, HardIcon
     HardLabel = Label(optionsWindow, text="Hard:")
-    HardLabel.grid(column=0, row=3)
+    HardLabel.grid(column=0, row=4)
 
     HardCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
-    HardCanvas.grid(column=1, row=3)
+    HardCanvas.grid(column=1, row=4)
 
     HardEntry = Entry(optionsWindow)
-    HardEntry.grid(column=2, row=3, columnspan=3, sticky=W+E)
+    HardEntry.grid(column=2, row=4, columnspan=3, sticky=W+E)
 
     HardIcon = None
     HardBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(HardIcon, HardEntry, True, HardCanvas, optionsWindow)))
-    HardBrowseButton.grid(column=5, row=3)
+    HardBrowseButton.grid(column=5, row=4)
     #
     global NightmareEntry, NightmareIcon
     NightmareLabel = Label(optionsWindow, text="Nightmare:")
-    NightmareLabel.grid(column=0, row=4)
+    NightmareLabel.grid(column=0, row=5)
 
     NightmareCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
-    NightmareCanvas.grid(column=1, row=4)
+    NightmareCanvas.grid(column=1, row=5)
 
     NightmareEntry = Entry(optionsWindow)
-    NightmareEntry.grid(column=2, row=4, columnspan=3, sticky=W+E)
+    NightmareEntry.grid(column=2, row=5, columnspan=3, sticky=W+E)
 
     NightmareIcon = None
     NightmareBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(NightmareIcon, NightmareEntry, True, NightmareCanvas, optionsWindow)))
-    NightmareBrowseButton.grid(column=5, row=4)
+    NightmareBrowseButton.grid(column=5, row=5)
 
 
 # The Final Function, which creates the _main.cfg file and creates the directorys.
@@ -155,8 +159,7 @@ def finalFunction():
     NightmareIcon = NightmareEntry.get()
     NightmareIconSliceNum = NightmareIcon.find('core')
     NightmareIcon = NightmareIcon[NightmareIconSliceNum:]
-    NightmareIcon = NightmareIcon.replace('core/images/', '')
-    # Create the campaign defenition, just the Id, but uppercased...
+    NightmareIcon = NightmareIcon.replace('core/images/', '') # Create the campaign defenition, just the Id, but uppercased...
     campDef = campId.upper()
     # Create the binary path...
     campBinary = 'data/add-ons/' + campId
@@ -186,27 +189,36 @@ def finalFunction():
     {~add-ons/%s/scenarios}
 #endif
 """ %(campId, campName, campIcon, campImage, campAbbrev, campFirstScenario, campDifficulties, campDef, campDescription, campDef, campBinary, campId, campId, campId)
+    #split the main template into lines, so I can put
     mainCfgList = mainCfgTemplate.split('\n') 
-
+    # Difficulty Descriptions.
     if "EASY" in mainCfgTemplate:
-        mainCfgList[9] += ' {MENU_IMG_TXT2 "' + EasyIcon + '" (_ 'Trainee') (_ "(Easy)")} + ";" +' 
-
+        mainCfgList[9] += ' {MENU_IMG_TXT2 "' + EasyIcon + '" (_ "Trainee") (_ "(Easy)")} + ";" +' 
     if "MEDIUM" in mainCfgTemplate:
         mainCfgList[9] += ' {MENU_IMG_TXT2 "' + MediumIcon + '" (_ "Soldier") (_ "(Medium)")} + ";" +'
-
     if "HARD" in mainCfgTemplate:
         mainCfgList[9] += ' {MENU_IMG_TXT2 "' + HardIcon + '" (_ "General") (_ "(Hard)")} + ";" +'
-
     if "NIGHTMARE" in mainCfgTemplate:
         mainCfgList[9] += ' {MENU_IMG_TXT2 "' + NightmareIcon + '" (_ "Master") (_ "(Nightmare)")}' 
-
+    # if there is a trailing '+ ";" +', delete it.
     if mainCfgList[9].endswith('+'):
         mainCfgList[9] = mainCfgList[9][0:-8]
-
+    # Extra Defines.
+    extraDefinesCheckNames = [extraDefines1, extraDefines2, extraDefines3, extraDefines4, extraDefines5]
+    extraDefinesText = ["ENABLE_ARMEGEDDON_DRAKE, ", "ENABLE_ANCIENT_LICH, ", "ENABLE_DWARVISH_RUNECASTER, ", "ENABLE_DWARVISH_ARCANISTER, ", "ENABLE_DEATH_KNIGHT"]
+    indexNum = 0
+    extraDefines = '    extra_defines='
+    # a for loop to reduce code.
+    for x in extraDefinesCheckNames:
+        if x.instate(['selected']):
+            extraDefines += extraDefinesText[indexNum]
+    # check for trailing commas
+    if extraDefines.endswith(", "): extraDefines = extraDefines[0:-2]
+    # put it in the list.
+    mainCfgList.insert(11, extraDefines)
+    # Join it all together again!
     mainCfgTemplate = '\n'.join(mainCfgList)
     
-    print mainCfgTemplate
-
     # Find the Userdata directory using the command wesnoth --config-path. The create the paths.
 
     if sys.platform == "linux2" or sys.platform == "darwin":
