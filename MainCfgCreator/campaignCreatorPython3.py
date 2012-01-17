@@ -1,6 +1,8 @@
-import sys, os, tkFileDialog, tkMessageBox, glob, getpass, Tkinter, ImageTk
-from Tkinter import *
-from ttk import *
+import sys, os, glob, getpass, tkinter
+from tkinter import *
+from tkinter.ttk import *
+from tkinter.messagebox import askyesno, showinfo
+from tkinter.filedialog import askopenfilename, askdirectory
 
 root = Tk()
 root.title("_main.cfg Creator")
@@ -10,21 +12,20 @@ if sys.platform == 'linux2':
 
 # This is a function that gets the path to the icon, and puts it in the entry.
 def getImageName(varName, entryName, issmallimage, canvasName, frame):
-    varName = tkFileDialog.askopenfilename(filetypes=[("All files", "*.*"), ("PNG Images", "*.png")])
+    varName = askopenfilename(filetypes=[("All files", "*.*"), ("PNG Images", "*.png")])
     entryName.insert(0, varName)
     if issmallimage:
-        img = ImageTk.PhotoImage(file=varName)
-        canvasName.delete(ALL)
+        img = PhotoImage(file=varName)
         canvasName.create_image(2, 2, image=img, anchor=NW)
         canvasName.config(width=img.width(), height=img.height())
         frame.mainloop()
 
 def quitButton():
-    if tkMessageBox.askokcancel("Verify Quit", "Really quit?"):
+    if askyesno("Verify Quit", "Really quit?"):
         root.destroy()
 
 def helpButton(helpMessage):
-    tkMessageBox.showinfo(title="Help!", message=helpMessage)
+    showinfo(title="Help!", message=helpMessage)
 
 def advancedOptionsWindow():
     optionsWindow = Toplevel()
@@ -51,7 +52,7 @@ def advancedOptionsWindow():
     EasyLabel = Label(optionsWindow, text="Easy:")
     EasyLabel.grid(column=0, row=2)
 
-    EasyCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    EasyCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     EasyCanvas.grid(column=1, row=2)
 
     EasyEntry = Entry(optionsWindow)
@@ -65,7 +66,7 @@ def advancedOptionsWindow():
     MediumLabel = Label(optionsWindow, text="Medium:")
     MediumLabel.grid(column=0, row=3)
 
-    MediumCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    MediumCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     MediumCanvas.grid(column=1, row=3)
 
     MediumEntry = Entry(optionsWindow)
@@ -79,7 +80,7 @@ def advancedOptionsWindow():
     HardLabel = Label(optionsWindow, text="Hard:")
     HardLabel.grid(column=0, row=4)
 
-    HardCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    HardCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     HardCanvas.grid(column=1, row=4)
 
     HardEntry = Entry(optionsWindow)
@@ -93,7 +94,7 @@ def advancedOptionsWindow():
     NightmareLabel = Label(optionsWindow, text="Nightmare:")
     NightmareLabel.grid(column=0, row=5)
 
-    NightmareCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    NightmareCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     NightmareCanvas.grid(column=1, row=5)
 
     NightmareEntry = Entry(optionsWindow)
@@ -227,29 +228,25 @@ def finalFunction():
         if not userDataPath:
             tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
             userDataPath = tkFileDialog.askdirectory()
-	userDataPath = userDataPath.strip() + '/'
-    elif sys.platform == "win32":
+    userDataPath = userDataPath.strip() + '/'
+    if sys.platform == "win32":
         userName = getpass.getuser()
         userDataPath = glob.glob('C:\\Users\\' + userName + "\\Documents\\My Games\\Wesnoth[0-9]*")
         userDataPath.sort(key=lambda path:[int(x) for x in re.findall("[0-9]+",path)], reverse=True)
-	if len(userDataPath) > 1:
-            userDataPath = userDataPath[0]
-        else:
-            userDataPath = str(userDataPath[0])
+    if len(userDataPath) > 1:
+        userDataPath = userDataPath[0]
     else:
-        print "Error!"
+        userDataPath = str(userDataPath[0])
 
     if sys.platform == "linux2":
         campPath = userDataPath + campBinary + '/'
-    elif sys.platform == "win32":
+    if sys.platform == "win32":
         campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
-	if not os.path.exists(userDataPath):
-            tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
-            userDataPath = tkFileDialog.askdirectory()
-            userDataPath = userDataPath.replace('/', '\\')
-            userDataPath = str(userDataPath)
-            campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
-    else:
+    if not os.path.exists(userDataPath):
+        tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
+        userDataPath = tkFileDialog.askdirectory()
+        userDataPath = userDataPath.replace('/', '\\')
+        userDataPath = str(userDataPath)
         campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
 
     # Create Folders.
@@ -283,9 +280,10 @@ iconRow.pack(side=TOP, fill=BOTH)
 portraitRow.pack(side=TOP, fill=BOTH)
 
 # Welcome Label
-openingLabel = Message(openingRow, width=90, text="So, you want to make a campaign? Great! This script is designed to make it easy for people who aren't aquianted with WML (Wesnoth Markup Language). Just fill in the blanks, and the rest will be done from there! I you need help, just click one of the buttons marked with a question mark")
-openingLabel.pack(side=TOP, fill=X)
-openingLabel.bind("<Configure>", lambda e: openingLabel.configure(width=e.width-10))
+openingMessage = Message(openingRow, width=90, text="So, you want to make a campaign? Great! This script is designed to make it easy for people who aren't aquianted with WML (Wesnoth Markup Language). Just fill in the blanks, and the rest will be done from there! I you need help, just click one of the buttons marked with a question mark")
+openingMessage.pack(side=TOP, fill=X)
+openingMessage.bind("<Configure>", lambda e: openingMessage.configure(width=e.width-10))
+
 # Label and Entry for the name row
 nameLabel = Label(nameRow, width=15, text="Name:")
 nameLabel.pack(side=LEFT)
