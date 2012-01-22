@@ -6,4 +6,4 @@ scenarioTemplate = """
     next_scenario=
     map_data=
 
-    {DEFAULT_SCENARIO}
+    {DEFAULT_SCHEDULE}

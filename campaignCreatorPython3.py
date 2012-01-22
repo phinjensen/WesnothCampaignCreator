@@ -1,6 +1,8 @@
-import sys, os, tkFileDialog, tkMessageBox, glob, getpass, Tkinter, ImageTk
-from Tkinter import *
-from ttk import *
+import sys, os, glob, getpass, tkinter
+from tkinter import *
+from tkinter.ttk import *
+from tkinter.messagebox import askyesno, showinfo
+from tkinter.filedialog import askopenfilename, askdirectory
 
 root = Tk()
 root.title("_main.cfg Creator")
@@ -10,26 +12,21 @@ if sys.platform == 'linux2':
 
 # This is a function that gets the path to the icon, and puts it in the entry.
 def getImageName(varName, entryName, issmallimage, canvasName, frame):
-    varName = tkFileDialog.askopenfilename(filetypes=[("All files", "*.*"), ("PNG Images", "*.png")])
+    varName = askopenfilename(filetypes=[("All files", "*.*"), ("PNG Images", "*.png")])
     entryName.insert(0, varName)
     if issmallimage:
-        img = ImageTk.PhotoImage(file=varName)
-        canvasName.delete(ALL)
+        img = PhotoImage(file=varName)
         canvasName.create_image(2, 2, image=img, anchor=NW)
         canvasName.config(width=img.width(), height=img.height())
         frame.mainloop()
 
 def quitButton():
-    if tkMessageBox.askokcancel("Verify Quit", "Really quit?"):
+    if askyesno("Verify Quit", "Really quit?"):
         root.destroy()
 
 def helpButton(helpMessage):
-    tkMessageBox.showinfo(title="Help!", message=helpMessage)
+    showinfo(title="Help!", message=helpMessage)
 
-help_Icon = ImageTk.PhotoImage(file="Gnome-help-browser.png")
-helpIcon = help_Icon
-browse_ButtonIcon = ImageTk.PhotoImage(file="Gnome-document-open.png")
-browseButtonIcon = browse_ButtonIcon
 def advancedOptionsWindow():
     optionsWindow = Toplevel()
     optionsWindow.title("Advanced Options")
@@ -49,62 +46,62 @@ def advancedOptionsWindow():
     extraDefines5.grid(column=5, row=0)                                              #/
     #
     Label(optionsWindow, text="Difficulty Descriptions:").grid(column=0, row=1)
-    Button(optionsWindow, text="?", width=1, command=(lambda: helpButton("This is where you choose the Icons for difficulties.")), image=helpIcon, compound=LEFT).grid(column=5, row=1)
+    Button(optionsWindow, text="?", width=1, command=(lambda: helpButton("This is where you choose the Icons for difficulties."))).grid(column=5, row=1)
     #
     global EasyEntry, EasyIcon
     EasyLabel = Label(optionsWindow, text="Easy:")
     EasyLabel.grid(column=0, row=2)
 
-    EasyCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    EasyCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     EasyCanvas.grid(column=1, row=2)
 
     EasyEntry = Entry(optionsWindow)
     EasyEntry.grid(column=2, row=2, columnspan=3, sticky=W+E)
 
     EasyIcon = None
-    EasyBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(EasyIcon, EasyEntry, True, EasyCanvas, optionsWindow)), image=browseButtonIcon, compound=LEFT)
+    EasyBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(EasyIcon, EasyEntry, True, EasyCanvas, optionsWindow)))
     EasyBrowseButton.grid(column=5, row=2)
     #
     global MediumEntry, MediumIcon
     MediumLabel = Label(optionsWindow, text="Medium:")
     MediumLabel.grid(column=0, row=3)
 
-    MediumCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    MediumCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     MediumCanvas.grid(column=1, row=3)
 
     MediumEntry = Entry(optionsWindow)
     MediumEntry.grid(column=2, row=3, columnspan=3, sticky=W+E)
 
     MediumIcon = None
-    MediumBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(MediumIcon, MediumEntry, True, MediumCanvas, optionsWindow)), image=browseButtonIcon, compound=LEFT)
+    MediumBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(MediumIcon, MediumEntry, True, MediumCanvas, optionsWindow)))
     MediumBrowseButton.grid(column=5, row=3)
     #
     global HardEntry, HardIcon
     HardLabel = Label(optionsWindow, text="Hard:")
     HardLabel.grid(column=0, row=4)
 
-    HardCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    HardCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     HardCanvas.grid(column=1, row=4)
 
     HardEntry = Entry(optionsWindow)
     HardEntry.grid(column=2, row=4, columnspan=3, sticky=W+E)
 
     HardIcon = None
-    HardBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(HardIcon, HardEntry, True, HardCanvas, optionsWindow)), image=browseButtonIcon, compound=LEFT)
+    HardBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(HardIcon, HardEntry, True, HardCanvas, optionsWindow)))
     HardBrowseButton.grid(column=5, row=4)
     #
     global NightmareEntry, NightmareIcon
     NightmareLabel = Label(optionsWindow, text="Nightmare:")
     NightmareLabel.grid(column=0, row=5)
 
-    NightmareCanvas = Tkinter.Canvas(optionsWindow, width=72, height=72)
+    NightmareCanvas = tkinter.Canvas(optionsWindow, width=72, height=72)
     NightmareCanvas.grid(column=1, row=5)
 
     NightmareEntry = Entry(optionsWindow)
     NightmareEntry.grid(column=2, row=5, columnspan=3, sticky=W+E)
 
     NightmareIcon = None
-    NightmareBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(NightmareIcon, NightmareEntry, True, NightmareCanvas, optionsWindow)), image=browseButtonIcon, compound=LEFT)
+    NightmareBrowseButton = Button(optionsWindow, text="Browse", width=7, command=(lambda: getImageName(NightmareIcon, NightmareEntry, True, NightmareCanvas, optionsWindow)))
     NightmareBrowseButton.grid(column=5, row=5)
 
 
@@ -231,29 +228,25 @@ def finalFunction():
         if not userDataPath:
             tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
             userDataPath = tkFileDialog.askdirectory()
-	userDataPath = userDataPath.strip() + '/'
-    elif sys.platform == "win32":
+    userDataPath = userDataPath.strip() + '/'
+    if sys.platform == "win32":
         userName = getpass.getuser()
         userDataPath = glob.glob('C:\\Users\\' + userName + "\\Documents\\My Games\\Wesnoth[0-9]*")
         userDataPath.sort(key=lambda path:[int(x) for x in re.findall("[0-9]+",path)], reverse=True)
-	if len(userDataPath) > 1:
-            userDataPath = userDataPath[0]
-        else:
-            userDataPath = str(userDataPath[0])
+    if len(userDataPath) > 1:
+        userDataPath = userDataPath[0]
     else:
-        print "Error!"
+        userDataPath = str(userDataPath[0])
 
     if sys.platform == "linux2":
         campPath = userDataPath + campBinary + '/'
-    elif sys.platform == "win32":
+    if sys.platform == "win32":
         campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
-	if not os.path.exists(userDataPath):
-            tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
-            userDataPath = tkFileDialog.askdirectory()
-            userDataPath = userDataPath.replace('/', '\\')
-            userDataPath = str(userDataPath)
-            campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
-    else:
+    if not os.path.exists(userDataPath):
+        tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
+        userDataPath = tkFileDialog.askdirectory()
+        userDataPath = userDataPath.replace('/', '\\')
+        userDataPath = str(userDataPath)
         campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
 
     # Create Folders.
@@ -287,9 +280,10 @@ iconRow.pack(side=TOP, fill=BOTH)
 portraitRow.pack(side=TOP, fill=BOTH)
 
 # Welcome Label
-openingLabel = Message(openingRow, width=90, text="So, you want to make a campaign? Great! This script is designed to make it easy for people who aren't aquianted with WML (Wesnoth Markup Language). Just fill in the blanks, and the rest will be done from there! I you need help, just click one of the buttons marked with a question mark.")
-openingLabel.pack(side=TOP, fill=X)
-openingLabel.bind("<Configure>", lambda e: openingLabel.configure(width=e.width-10))
+openingMessage = Message(openingRow, width=90, text="So, you want to make a campaign? Great! This script is designed to make it easy for people who aren't aquianted with WML (Wesnoth Markup Language). Just fill in the blanks, and the rest will be done from there! I you need help, just click one of the buttons marked with a question mark")
+openingMessage.pack(side=TOP, fill=X)
+openingMessage.bind("<Configure>", lambda e: openingMessage.configure(width=e.width-10))
+
 # Label and Entry for the name row
 nameLabel = Label(nameRow, width=15, text="Name:")
 nameLabel.pack(side=LEFT)
@@ -297,7 +291,7 @@ nameLabel.pack(side=LEFT)
 nameEntry = Entry(nameRow, width=50)
 nameEntry.pack(side=LEFT, fill=X, expand=YES)
 
-nameHelpButton = Button(nameRow, text="?", command=(lambda: helpButton("This is where the name of the Campaign you want to create goes.")), width=1, image=helpIcon, compound=LEFT)
+nameHelpButton = Button(nameRow, text="?", command=(lambda: helpButton("This is where the name of the Campaign you want to create goes.")), width=1)
 nameHelpButton.pack(side=RIGHT)
 
 # Label and Entry for the first scenario row...
@@ -307,7 +301,7 @@ firstScenarioLabel.pack(side=LEFT)
 firstScenarioEntry = Entry(firstScenarioRow, width=50)
 firstScenarioEntry.pack(side=LEFT, fill=X, expand=YES)
 
-firstScenarioHelpButton = Button(firstScenarioRow, width=1, text="?", command=(lambda: helpButton("This is where the ID of the first scenario of your campaign is. The ID would usually be the name of the first scenario, with underscores instead of spaces, and the scenario number at the beginning.")), image=helpIcon, compound=LEFT)
+firstScenarioHelpButton = Button(firstScenarioRow, width=1, text="?", command=(lambda: helpButton("This is where the ID of the first scenario of your campaign is. The ID would usually be the name of the first scenario, with underscores instead of spaces, and the scenario number at the beginning.")))
 firstScenarioHelpButton.pack(side=RIGHT)
 
 # Label, Text Widget, and Scrollbar for the discription...
@@ -336,10 +330,10 @@ hardCheck.pack(side=LEFT)
 nightmareCheck=Checkbutton(diffRow,text='Nightmare', onvalue=1)
 nightmareCheck.pack(side=LEFT)
 
-checkButtonsHelpButton = Button(diffRow, text="?", width=1, command=(lambda: helpButton("This is where you choose the number of difficulties. For Icons and names of difficulties, open the advanced options window.")), image=helpIcon, compound=LEFT)
+checkButtonsHelpButton = Button(diffRow, text="?", width=1, command=(lambda: helpButton("This is where you choose the number of difficulties. For Icons and names of difficulties, open the advanced options window.")))
 checkButtonsHelpButton.pack(side=RIGHT)
 
-descriptionHelpButton = Button(descRow, width=1, text="?", command=(lambda: helpButton("This is where the description for the campaign should go.")), image=helpIcon, compound=LEFT)
+descriptionHelpButton = Button(descRow, width=1, text="?", command=(lambda: helpButton("This is where the description for the campaign should go.")))
 descriptionHelpButton.pack(side=RIGHT)
 
 # Label, Entry, and Browse button for the Icon
@@ -354,10 +348,10 @@ iconEntry = Entry(iconRow, width=50)
 iconEntry.pack(side=LEFT, fill=X, expand=YES)
 
 campIcon = ''
-iconButton = Button(iconRow, width=7, text="Browse", command=(lambda: getImageName(campIcon, iconEntry, True, iconCanvas, iconRow)), image=browseButtonIcon, compound=LEFT)
+iconButton = Button(iconRow, width=7, text="Browse", command=(lambda: getImageName(campIcon, iconEntry, True, iconCanvas, iconRow)))
 iconButton.pack(side=LEFT)
 
-iconHelpButton = Button(iconRow, width=1, text="?", command=(lambda: helpButton("This is the small icon that would go next to the name of the campaign. This should be an image from the core game.")), image=helpIcon, compound=LEFT)
+iconHelpButton = Button(iconRow, width=1, text="?", command=(lambda: helpButton("This is the small icon that would go next to the name of the campaign. This should be an image from the core game.")))
 iconHelpButton.pack(side=RIGHT)
 
 # Label, Entry, and Browse button for the Portrait
@@ -368,20 +362,16 @@ portraitEntry = Entry(portraitRow, width=50)
 portraitEntry.pack(side=LEFT, fill=X, expand=YES)
 
 campImage = ''
-portraitButton = Button(portraitRow, width=7, text="Browse", command=(lambda: getImageName(campImage, portraitEntry, None, None, None)), image=browseButtonIcon, compound=LEFT)
+portraitButton = Button(portraitRow, width=7, text="Browse", command=(lambda: getImageName(campImage, portraitEntry, None, None, None)))
 portraitButton.pack(side=LEFT)
 
-portraitHelpButton = Button(portraitRow, width=1, text="?", command=(lambda: helpButton("This is the portrait that goes underneath the description.")), image=helpIcon, compound=LEFT)
+portraitHelpButton = Button(portraitRow, width=1, text="?", command=(lambda: helpButton("This is the portrait that goes underneath the description.")))
 portraitHelpButton.pack(side=RIGHT)
 
 advancedOptionsButton = Button(root, text="Advanced Options", command=(lambda: advancedOptionsWindow()))
 advancedOptionsButton.pack()
 
-done_ButtonImage = ImageTk.PhotoImage(file="Gnome-emblem-default.png")
-doneButtonImage = done_ButtonImage
-Button(root, text="Done!", command=finalFunction, image=doneButtonImage, compound=LEFT).pack(side=LEFT)
-quit_ButtonImage = ImageTk.PhotoImage(file="Gnome-application-exit.png")
-quitButtonImage = quit_ButtonImage
-Button(root, text="Quit", command=quitButton, image=quitButtonImage, compound=LEFT).pack(side=RIGHT)
+Button(root, text="Done!", command=finalFunction).pack(side=LEFT)
+Button(root, text="Quit", command=quitButton).pack(side=RIGHT)
 
 root.mainloop()
