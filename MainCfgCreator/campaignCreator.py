@@ -231,23 +231,21 @@ def finalFunction():
         if not userDataPath:
             tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
             userDataPath = tkFileDialog.askdirectory()
-	  userDataPath = userDataPath.strip() + '/'
-    elif sys.platform == "win32":
+    userDataPath = userDataPath.strip() + '/'
+    if sys.platform == "win32":
         userName = getpass.getuser()
         userDataPath = glob.glob('C:\\Users\\' + userName + "\\Documents\\My Games\\Wesnoth[0-9]*")
         userDataPath.sort(key=lambda path:[int(x) for x in re.findall("[0-9]+",path)], reverse=True)
-	  if len(userDataPath) > 1:
+    if len(userDataPath) > 1:
             userDataPath = userDataPath[0]
-        else:
-            userDataPath = str(userDataPath[0])
     else:
-        print "Error!"
+            userDataPath = str(userDataPath[0])
 
     if sys.platform == "linux2":
         campPath = userDataPath + campBinary + '/'
     elif sys.platform == "win32":
         campPath = userDataPath + '\\data\\add-ons\\' + campId + '\\'
-	  if not os.path.exists(userDataPath):
+    if not os.path.exists(userDataPath):
             tkMessageBox.askokcancel("Userdata not found!", "Your userdata directory was not found! Please locate it.")
             userDataPath = tkFileDialog.askdirectory()
             userDataPath = userDataPath.replace('/', '\\')
