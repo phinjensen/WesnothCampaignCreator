@@ -26,9 +26,9 @@ def quitButton():
 def helpButton(helpMessage):
     tkMessageBox.showinfo(title="Help!", message=helpMessage)
 
-help_Icon = ImageTk.PhotoImage(file="Gnome-help-browser.png")
+help_Icon = ImageTk.PhotoImage(file=os.path.dirname(__file__) + "\\Gnome-help-browser.png")
 helpIcon = help_Icon
-browse_ButtonIcon = ImageTk.PhotoImage(file="Gnome-document-open.png")
+browse_ButtonIcon = ImageTk.PhotoImage(file=os.path.dirname(__file__) + "\\Gnome-document-open.png")
 browseButtonIcon = browse_ButtonIcon
 def advancedOptionsWindow():
     optionsWindow = Toplevel()
@@ -375,10 +375,10 @@ portraitHelpButton.pack(side=RIGHT)
 advancedOptionsButton = Button(root, text="Advanced Options", command=(lambda: advancedOptionsWindow()))
 advancedOptionsButton.pack()
 
-done_ButtonImage = ImageTk.PhotoImage(file="Gnome-emblem-default.png")
+done_ButtonImage = ImageTk.PhotoImage(file=os.path.dirname(__file__) + "\\Gnome-emblem-default.png")
 doneButtonImage = done_ButtonImage
 Button(root, text="Done!", command=finalFunction, image=doneButtonImage, compound=LEFT).pack(side=LEFT)
-quit_ButtonImage = ImageTk.PhotoImage(file="Gnome-application-exit.png")
+quit_ButtonImage = ImageTk.PhotoImage(file=os.path.dirname(__file__) + "\\Gnome-application-exit.png")
 quitButtonImage = quit_ButtonImage
 Button(root, text="Quit", command=quitButton, image=quitButtonImage, compound=LEFT).pack(side=RIGHT)
 
