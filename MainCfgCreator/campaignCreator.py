@@ -21,6 +21,11 @@ def getImageName(varName, entryName, issmallimage, canvasName, frame):
 
 def quitButton():
     if tkMessageBox.askokcancel("Verify Quit", "Really quit?"):
+    if tkMessageBox.askokcancel("Verify Quit", "Really quit?"):
+        root.destroy()
+
+def helpButton(helpMessage):
+    tkMessageBox.showinfo(title="Help!", message=helpMessage)
         root.destroy()
 
 def helpButton(helpMessage):
